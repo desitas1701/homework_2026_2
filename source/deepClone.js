@@ -1,7 +1,5 @@
 'use strict';
 
-// const deepClone = (obj) => structuredClone(obj); // :-)
-
 /**
  * Возвращает глубокую копию переданного объекта.
  *
