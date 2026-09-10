@@ -21,24 +21,14 @@
  */
 
 const deepClone = (obj) => {
-    const allowedPrimitiveTypes = [
-        'number',
-        'bigint',
-        'string',
-        'boolean',
-        'null',
-        'undefined'
-    ];
-
     const type = typeof obj;
     
     if (
-        (obj === null && allowedPrimitiveTypes.includes('null'))
-        ||
-        allowedPrimitiveTypes.includes(type)
+        obj === null ||
+        (type !== 'symbol' && type !== 'object' && type !== 'function')
     ) return obj;
 
-    if (type === 'object' && obj !== null) {
+    if (type === 'object') {
         if (Array.isArray(obj)) return obj.map(deepClone);
         
         if (Object.getPrototypeOf(obj) === Object.prototype)
