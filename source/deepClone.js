@@ -20,7 +20,6 @@ const NOT_ALLOWED_TYPES = new Set(['symbol', 'function']);
  *
  * @returns {Object}
  */
-
 const deepClone = (obj) => {
     const type = obj === null ? 'null' : typeof obj;
 
