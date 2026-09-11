@@ -1,7 +1,7 @@
 'use strict';
 
 QUnit.module('Тестируем функцию deepClone', () => {
-    QUnit.test('Работает правильного для простого объекта', (assert) => {
+    QUnit.test('Работает правильно для простого объекта', (assert) => {
         const original = { a: 1, b: 2 };
         const cloned = deepClone(original);
 
@@ -67,8 +67,8 @@ QUnit.module('Тестируем функцию deepClone', () => {
         let currentDepth = 0;
         while (currentOriginal && currentCloned) {
             assert.notStrictEqual(
-                currentCloned, 
-                currentOriginal, 
+                currentCloned,
+                currentOriginal,
                 `Объект на глубине ${currentDepth} должен быть независимым`
             );
 
