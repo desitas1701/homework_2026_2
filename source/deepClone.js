@@ -20,21 +20,26 @@
  */
 
 const deepClone = (obj) => {
-    const type = typeof obj;
-    
-    if (
-        obj === null ||
-        (type !== 'symbol' && type !== 'object' && type !== 'function')
-    ) return obj;
+    const type = obj === null ? 'null' : typeof obj;
 
-    if (type === 'object') {
-        if (Array.isArray(obj)) return obj.map(deepClone);
-        
-        if (Object.getPrototypeOf(obj) === Object.prototype)
-            return Object.fromEntries(
-                Object.entries(obj).map(([key, value]) => [key, deepClone(value)])
-            );
+    if (type === 'symbol' || type == 'function') {
+        throw new TypeError(`Cloning of the following type is not supported: ${type}`);
     }
 
-    throw new TypeError('Unsupported data type object');
+    if (type !== 'object') {
+        return obj;
+    }
+
+    if (Array.isArray(obj)) {
+        return obj.map(deepClone);
+    }
+    
+    if (Object.getPrototypeOf(obj) === Object.prototype) {
+        return Object.fromEntries(
+            Object.entries(obj).map(([key, value]) => [key, deepClone(value)])
+        );
+    }
+
+    const constructorName = obj.constructor ? obj.constructor.name : 'Unknown';
+    throw new TypeError(`Cloning of the following type is not supported: ${constructorName}`);
 };
