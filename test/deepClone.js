@@ -25,27 +25,61 @@ QUnit.module('Тестируем функцию deepClone', () => {
         assert.notStrictEqual(cloned[2], original[2], 'Вложенный объект в массиве должен быть независимым');
     });
 
-    QUnit.test('Работает правильно для объектов разрешённых типов данных', (assert) => {
-        const original = [
-            123,
-            123.45,
-            -Infinity,
-            Infinity,
-            NaN,
-            9007199254740991n,
-            "Hello, World!",
-            true,
-            null,
-            undefined,
-            { key: 'value' }
-        ];
-        const cloned = deepClone(original);
+    QUnit.test('Работает правильно для значений разрешённых примитивных типов данных', (assert) => {
+        const allowedTypes = {
+            'number': [
+                123,
+                123.45,
+                -Infinity,
+                Infinity,
+                NaN,
+            ],
+            'bigint': [
+                9007199254740991n,
+            ],
+            'string': [
+                'Hello, World!',
+                "Hello, JavaScript!",
+                `Hello, NodeJS!`,
+            ],
+            'boolean': [
+                false,
+                true
+            ],
+            'null': [
+                null
+            ],
+            'undefined': [
+                undefined
+            ],
+        };
 
-        assert.deepEqual(cloned, original, 'Копия массива должна быть равна оригиналу');
-        assert.notStrictEqual(cloned, original, 'Копия должна быть независимой от оригинала');
+        for (const [type, values] of Object.entries(allowedTypes)) {
+            for (const [index, original] of Object.entries(values)) {
+                const cloned = deepClone(original);
 
-        const objectIndex = original.length - 1;
-        assert.notStrictEqual(cloned[objectIndex], original[objectIndex], 'Вложенный объект в массиве должен быть независимым');
+                assert.deepEqual(cloned, original, `Копия значения ${type}:${index} должна быть равна оригиналу`);
+            }
+        }
+    });
+
+    QUnit.test('Работает правильно для значений разрешённых объектных типов данных', (assert) => {
+        const allowedTypes = {
+            'array': [
+                [1, 2, 3],
+            ],
+            'pojo': [
+                { a: 1, b: 2, c: 3 },
+            ],
+        };
+
+        for (const [type, values] of Object.entries(allowedTypes)) {
+            for (const [index, original] of Object.entries(values)) {
+                const cloned = deepClone(original);
+
+                assert.deepEqual(cloned, original, `Копия значения ${type}:${index} должна быть равна оригиналу`);
+            }
+        }
     });
 
     QUnit.test('Работает правильно для объектов любой вложенности', (assert) => {
