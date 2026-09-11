@@ -1,5 +1,7 @@
 'use strict';
 
+const NOT_ALLOWED_TYPES = new Set(['symbol', 'function']);
+
 /**
  * Возвращает глубокую копию переданного объекта.
  *
@@ -22,7 +24,7 @@
 const deepClone = (obj) => {
     const type = obj === null ? 'null' : typeof obj;
 
-    if (type === 'symbol' || type == 'function') {
+    if (NOT_ALLOWED_TYPES.has(type)) {
         throw new TypeError(`Cloning of the following type is not supported: ${type}`);
     }
 
@@ -40,6 +42,6 @@ const deepClone = (obj) => {
         );
     }
 
-    const constructorName = obj.constructor ? obj.constructor.name : 'Unknown';
+    const constructorName = obj?.constructor?.name ?? 'Unknown';
     throw new TypeError(`Cloning of the following type is not supported: ${constructorName}`);
 };
