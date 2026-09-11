@@ -44,21 +44,21 @@ QUnit.module('Тестируем функцию deepClone', () => {
             ],
             'boolean': [
                 false,
-                true
+                true,
             ],
             'null': [
-                null
+                null,
             ],
             'undefined': [
-                undefined
+                undefined,
             ],
         };
 
         for (const [type, values] of Object.entries(allowedTypes)) {
-            for (const [index, original] of Object.entries(values)) {
+            for (const original of values) {
                 const cloned = deepClone(original);
 
-                assert.deepEqual(cloned, original, `Копия значения ${type}:${index} должна быть равна оригиналу`);
+                assert.deepEqual(cloned, original, `Копия значения ${type}:${original} должна быть равна оригиналу`);
             }
         }
     });
@@ -76,11 +76,13 @@ QUnit.module('Тестируем функцию deepClone', () => {
         };
 
         for (const [type, values] of Object.entries(forbiddenTypes)) {
-            for (const [index, original] of Object.entries(values)) {
+            for (const original of values) {
+                const stringifiedValue = typeof original === 'symbol' ? original.toString() : original;
+
                 assert.throws(
                     () => deepClone(original),
                     TypeError,
-                    `Попытка скопировать значение ${type}:${index} запрещённого типа данных приводит к выбросу ошибки`
+                    `Попытка скопировать значение ${type}:${stringifiedValue} запрещённого типа данных приводит к выбросу ошибки`
                 );
             }
         }
@@ -97,10 +99,10 @@ QUnit.module('Тестируем функцию deepClone', () => {
         };
 
         for (const [type, values] of Object.entries(allowedTypes)) {
-            for (const [index, original] of Object.entries(values)) {
+            for (const original of values) {
                 const cloned = deepClone(original);
 
-                assert.deepEqual(cloned, original, `Копия значения ${type}:${index} должна быть равна оригиналу`);
+                assert.deepEqual(cloned, original, `Копия значения ${type}:${original} должна быть равна оригиналу`);
             }
         }
     });
