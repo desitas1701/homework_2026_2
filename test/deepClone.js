@@ -54,13 +54,13 @@ QUnit.module('Тестируем функцию deepClone', () => {
             ],
         };
 
-        for (const [type, values] of Object.entries(allowedTypes)) {
-            for (const original of values) {
+        Object.entries(allowedTypes).forEach(([type, values]) => {
+            values.forEach((original) => {
                 const cloned = deepClone(original);
 
                 assert.deepEqual(cloned, original, `Копия значения ${type}:${original} должна быть равна оригиналу`);
-            }
-        }
+            });
+        });
     });
 
     QUnit.test('Не работает для значений запрещённых типов данных', (assert) => {
@@ -75,8 +75,8 @@ QUnit.module('Тестируем функцию deepClone', () => {
             ],
         };
 
-        for (const [type, values] of Object.entries(forbiddenTypes)) {
-            for (const original of values) {
+        Object.entries(forbiddenTypes).forEach(([type, values]) => {
+            values.forEach((original) => {
                 const stringifiedValue = typeof original === 'symbol' ? original.toString() : original;
 
                 assert.throws(
@@ -84,8 +84,8 @@ QUnit.module('Тестируем функцию deepClone', () => {
                     TypeError,
                     `Попытка скопировать значение ${type}:${stringifiedValue} запрещённого типа данных приводит к выбросу ошибки`
                 );
-            }
-        }
+            });
+        });
     });
 
     QUnit.test('Работает правильно для значений разрешённых объектных типов данных', (assert) => {
@@ -98,13 +98,13 @@ QUnit.module('Тестируем функцию deepClone', () => {
             ],
         };
 
-        for (const [type, values] of Object.entries(allowedTypes)) {
-            for (const original of values) {
+        Object.entries(allowedTypes).forEach(([type, values]) => {
+            values.forEach((original) => {
                 const cloned = deepClone(original);
 
                 assert.deepEqual(cloned, original, `Копия значения ${type}:${original} должна быть равна оригиналу`);
-            }
-        }
+            });
+        });
     });
 
     QUnit.test('Работает правильно для объектов любой вложенности', (assert) => {
