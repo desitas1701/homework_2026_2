@@ -63,6 +63,29 @@ QUnit.module('Тестируем функцию deepClone', () => {
         }
     });
 
+    QUnit.test('Не работает для значений запрещённых типов данных', (assert) => {
+        const forbiddenTypes = {
+            'symbol': [
+                Symbol('id')
+            ],
+            'function': [
+                function fib(n) {
+                    return n <= 1 ? n : fib(n - 1) + fib(n - 2);
+                }
+            ],
+        };
+
+        for (const [type, values] of Object.entries(forbiddenTypes)) {
+            for (const [index, original] of Object.entries(values)) {
+                assert.throws(
+                    () => deepClone(original),
+                    TypeError,
+                    `Попытка скопировать значение ${type}:${index} запрещённого типа данных приводит к выбросу ошибки`
+                );
+            }
+        }
+    });
+
     QUnit.test('Работает правильно для значений разрешённых объектных типов данных', (assert) => {
         const allowedTypes = {
             'array': [
