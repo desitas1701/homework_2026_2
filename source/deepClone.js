@@ -42,6 +42,6 @@ const deepClone = (obj) => {
         );
     }
 
-    const constructorName = obj?.constructor?.name ?? 'Unknown';
+    const constructorName = obj.constructor?.name ?? 'Unknown';
     throw new TypeError(`Cloning of the following type is not supported: ${constructorName}`);
 };
